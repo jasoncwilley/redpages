@@ -18,6 +18,26 @@ RATING_CHOICES = (
     (5, '5'),
     )
 
+FOOD_and_DRINKS = 'FOOD & DRINKS'
+ENTERTAINMENT = 'ENTERTAINMENT'
+SERVICES = 'SERVICES'
+PRODUCTS = 'PRODUCTS'
+RELIGIOUS_SERVICES = 'RELIGIOUS SERVICES'
+OTHER = 'OTHER'
+COMPANY_TYPE_CHOICES = (
+    (FOOD_and_DRINKS, 'Food & Drinks'),
+    (ENTERTAINMENT, 'Entertainment'),
+    (SERVICES, 'Services'),
+    (PRODUCTS, 'Products'),
+    (RELIGIOUS_SERVICES, 'Religious Services'),
+    (OTHER, 'Other'),
+)
+company_type = models.CharField(
+    max_length=25,
+    choices=COMPANY_TYPE_CHOICES,
+    default=OTHER,
+)
+
 class Review(models.Model):
     company_name = models.ForeignKey(CompanyByType, on_delete=models.CASCADE)
     first_name = models.CharField(blank=True, max_length=50)

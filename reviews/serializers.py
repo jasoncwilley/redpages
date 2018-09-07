@@ -1,12 +1,22 @@
-from reviews.models import Review, RATING_CHOICES
+from reviews.models import Review, RATING_CHOICES, COMPANY_TYPE_CHOICES
 from rest_framework.serializers import ModelSerializer
 
 from rest_framework import serializers
 from datetime import datetime
 
 
+class CompanyReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = (
+        'id', 'company_type', 'company_name',
+        'first_name', 'last_name', 'rating',
+        'comment', 'pub_date'
+        )
+
 class ReviewSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
+    company_type = serializers.ChoiceField(choices=COMPANY_TYPE_CHOICES, default='OTHER')
     company_name= serializers.CharField(max_length=50)
     first_name = serializers.CharField(required= False, allow_blank=True, max_length=50)
     last_name = serializers.CharField(required= False, allow_blank=True, max_length=50)
@@ -18,6 +28,7 @@ class ReviewSerializer(serializers.Serializer):
         return Review.objects.create(**validated_data)
 
     def update(self,validated_data):
+        instance.comapny_type = validated_data.get('company_type', instance.company_type)
         instance.first_nam = validated_data.get('first_name', instance.first_name)
         instance.last_name = validated_data.get('last_name', instance.last_name)
         instance.company_name = validated_data.get('company_name', instance.company_name)

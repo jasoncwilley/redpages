@@ -15,6 +15,10 @@ class ReviewListView(generics.ListCreateAPIView):
     serializer_class = ReviewSerializer
     queryset =Review.objects.all()
 
+class ReviewDetailView(RetrieveUpdateDestroyAPIView):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+    lookup_field = 'id'
 
 
 @csrf_exempt
