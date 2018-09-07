@@ -6,11 +6,10 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
-from reviews.serializers import CompanyReviewsSerializer, ReviewSerializer
+from reviews.serializers import ReviewSerializer
 from rest_framework.generics import ListAPIView, CreateAPIView
-from reviews.models import CompanyReviews, Review
-
+from reviews.models import  Review
 
 class ReviewListView(ListAPIView, CreateAPIView):
     serializer_class = ReviewSerializer
-    queryset = CompanyReviews.objects.all()
+    queryset =Review.objects.all()

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from . models import CompanyReviews, Review
+from . models import Review
 
 class ReviewAdmin(admin.ModelAdmin):
     model = Review
@@ -7,5 +7,5 @@ class ReviewAdmin(admin.ModelAdmin):
     list_filter = ['pub_date', 'first_name', 'last_name']
     search_fields = ['comment']
 
-admin.site.register(CompanyReviews)
+
 admin.site.register(Review)
