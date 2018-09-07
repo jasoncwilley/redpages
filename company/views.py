@@ -1,11 +1,30 @@
 from django.shortcuts import render
 from rest_framework import viewsets
+from rest_framework.viewsets import ModelViewSet
 from company.models import CompanyByType
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
-from company.serializers import CompanyByTypeSerializer
+from company.serializers import CompanyByTypeSerializer, CompanySerializer
+from rest_framework.generics import ListAPIView, CreateAPIView
+
+
+class CompanyListView(ListAPIView, CreateAPIView):
+    serializer_class = CompanyByTypeSerializer
+    queryset = CompanyByType.objects.all()
+
+
+
+
+class CompanyViewSet(ModelViewSet):
+    queryset = CompanyByType.objects.all()
+    serializer_class = CompanyByTypeSerializer
+
+    def list(self, request):
+        queryset = CompanyByType.objects.all()
+        serializer = CompanyByTypeSerializer(queryset, many=True)
+        return JsonResponse(serializer.data, safe=False)
 
 
 @csrf_exempt

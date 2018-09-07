@@ -3,6 +3,18 @@ from company.models import CompanyByType, COMPANY_TYPE_CHOICES
 from rest_framework.serializers import ModelSerializer
 
 
+
+class CompanySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CompanyByType
+        fields = (
+        'id', 'company_name', 'company_type',
+        'company_twitter', 'company_facebook',
+        'company_instagram', 'street_address',
+        'city', 'state', 'zip_code',
+        'comp_longitude', 'comp_latitude'
+        )
+
 class CompanyByTypeSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     company_name = serializers.CharField(required= False, allow_blank=True, max_length=50)

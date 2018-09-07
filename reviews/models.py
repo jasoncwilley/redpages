@@ -13,16 +13,24 @@ class CompanyReviews(models.Model):
     def __str__(self):
         return self.company_name
 
+ONE_STAR = 'one star'
+TWO_STARS = 'two stars'
+THREE_STARS = 'three stars'
+FOUR_STARS = 'four stars'
+FIVE_STARS = 'five stars'
+RATING_CHOICES = (
+    (1, '1'),
+    (2, '2'),
+    (3, '3'),
+    (4, '4'),
+    (5, '5'),
+    )
 
 class Review(models.Model):
-    RATING_CHOICES = (
-        (1, '1'),
-        (2, '2'),
-        (3, '3'),
-        (4, '4'),
-        (5, '5'),
-    )
-    companyname = models.ForeignKey(CompanyReviews, on_delete=models.CASCADE)
+    Companyreview= models.CharField(max_length=500)
+    def __str__(self):
+        return self.companyreview.company_name
+
     first_name = models.CharField(blank=True, max_length=50)
     last_name = models.CharField(blank=True, max_length=25)
     comment = models.TextField(blank=True, max_length=500)
