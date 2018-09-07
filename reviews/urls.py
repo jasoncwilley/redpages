@@ -10,10 +10,12 @@ from reviews.views import ReviewListView
 
 
 
-router = routers.DefaultRouter()
+
 
 
 
 urlpatterns = [
-    path('review/', ReviewListView.as_view(), name='list')
+    path(r'review/', ReviewListView.as_view(), name='list'),
+    path('list/', views.review_list, name='review_list'),
+    path('<int:id>/', views.review_detail, name='review_detail'),
     ]

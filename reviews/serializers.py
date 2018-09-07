@@ -18,7 +18,6 @@ class ReviewSerializer(serializers.Serializer):
         return Review.objects.create(**validated_data)
 
     def update(self,validated_data):
-
         instance.first_nam = validated_data.get('first_name', instance.first_name)
         instance.last_name = validated_data.get('last_name', instance.last_name)
         instance.company_name = validated_data.get('company_name', instance.company_name)
