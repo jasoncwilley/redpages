@@ -45,13 +45,15 @@ class Review(models.Model):
         (RELIGIOUS_SERVICES, 'Religious Services'),
         (OTHER, 'Other'),
     )
-    company_name = models.ForeignKey(company.models.CompanyByType,  on_delete=models.PROTECT)
+    company_name = models.ForeignKey('company.CompanyByType', related_name='name', to_field='company_name', on_delete=models.CASCADE)
     company_type = models.CharField(choices=COMPANY_TYPE_CHOICES, max_length=25)
     first_name = models.CharField(blank=True, max_length=50)
     last_name = models.CharField(blank=True, max_length=25)
     comment = models.TextField(blank=True, max_length=500)
     rating = models.IntegerField(choices=RATING_CHOICES)
     pub_date =  models.DateTimeField(auto_now=True)
+
+
 
 ONE_STAR = 'one star'
 TWO_STARS = 'two stars'

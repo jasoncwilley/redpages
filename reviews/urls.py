@@ -7,8 +7,8 @@ from . import views
 from reviews.views import ReviewList, ReviewViewSet, ReviewListView, RetrieveUpdateDestroyAPIView
 
 router = routers.DefaultRouter()
-router.register('Review', views.ReviewViewSet)
 router.register('reviews', views.ReviewList)
+
 urlpatterns = [
     path('', include(router.urls)),
     path('postreviews/', ReviewListView.as_view(), name='post'),

@@ -20,7 +20,7 @@ COMPANY_TYPE_CHOICES = (
 
 class CompanyByType(models.Model):
 
-    company_name = models.CharField(max_length=50)
+    company_name = models.CharField(max_length=50,  unique=True)
     company_email = models.EmailField(blank=True, max_length=35)
     company_twitter = models.CharField(blank=True, max_length=50)
     company_facebook = models.CharField(blank=True, max_length=50)

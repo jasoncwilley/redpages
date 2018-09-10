@@ -12,13 +12,32 @@ from reviews.serializers import ReviewSerializer,  ReviewListSerializer
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework import generics
 from django.http import HttpResponseRedirect
-
 from .forms import ReviewForm
 import datetime
+from django.db.models import Q
+import django_filters.rest_framework
+from rest_framework.filters import SearchFilter, OrderingFilter
+from django_filters.rest_framework import DjangoFilterBackend
 
 class ReviewList(viewsets.ModelViewSet):
     queryset = Review.objects.all()
     serializer_class = ReviewListSerializer
+    filter_backends = [SearchFilter, OrderingFilter]
+    search_fields = ['company_name__name', 'company_type',
+    'comment', 'rating', 'pub_date',]
+    def get_queryset(self, *args, **kwargs):
+        queryset_list = Review.objects.all()
+        query = self.request.GET.get('q')
+        if query:
+            queryset_list = queryset_list.filter(
+                
+                Q(company_type__icontains=query) |
+                Q(comment__icontains=query) |
+                Q(rating__icontains=query) |
+                Q(pub_date__icontains=query)
+                ).distinct()
+        return queryset_list
+
 
 
 

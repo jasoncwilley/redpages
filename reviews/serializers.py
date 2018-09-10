@@ -4,7 +4,7 @@ from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
 from datetime import datetime
 
-class ReviewListSerializer(serializers.HyperlinkedModelSerializer):
+class ReviewListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = (

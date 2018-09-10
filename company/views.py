@@ -11,10 +11,33 @@ from rest_framework.generics import ListAPIView, CreateAPIView
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
 from django.db.models import Q
+import django_filters.rest_framework
+from rest_framework.filters import SearchFilter, OrderingFilter
+from django_filters.rest_framework import DjangoFilterBackend
+
 
 class CompanyView(viewsets.ModelViewSet):
     queryset = CompanyByType.objects.all()
     serializer_class = CompanySerializer
+    filter_backends = [SearchFilter, OrderingFilter]
+    search_fields = ['id', 'company_name', 'company_type',
+    'company_twitter', 'company_facebook',
+    'company_instagram', 'street_address',
+    'city', 'state', 'zip_code',]
+    def get_queryset(self, *args, **kwargs):
+        queryset_list = CompanyByType.objects.all()
+        query = self.request.GET.get('q')
+        if query:
+            queryset_list = queryset_list.filter(
+                Q(company_name__icontains=query) |
+                Q(company_email__icontains=query) |
+                Q(company_type__icontains=query) |
+                Q(street_address__icontains=query) |
+                Q(city__icontains=query) |
+                Q(state__icontains=query) |
+                Q(zip_code__icontains=query)
+                ).distinct()
+        return queryset_list
 
 
 
