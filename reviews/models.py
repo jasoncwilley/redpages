@@ -14,7 +14,7 @@ class Company(models.Model):
         return np.mean(all_ratings)
 
     def __str__(self):
-        return self.company_name
+        return self.company_name.company_name
 
 
 class Review(models.Model):
@@ -52,6 +52,9 @@ class Review(models.Model):
     comment = models.TextField(blank=True, max_length=500)
     rating = models.IntegerField(choices=RATING_CHOICES)
     pub_date =  models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.company_name.company_name
 
 
 
