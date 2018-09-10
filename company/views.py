@@ -6,25 +6,63 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
-from company.serializers import CompanyByTypeSerializer, CompanySerializer
+from company.serializers import CompanyTypeSerializer, CompanyByTypeSerializer, CompanySerializer
 from rest_framework.generics import ListAPIView, CreateAPIView
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import generics
+from django.db.models import Q
+
+class CompanyView(viewsets.ModelViewSet):
+    queryset = CompanyByType.objects.all()
+    serializer_class = CompanySerializer
+
 
 
 class CompanyListView(ListAPIView, CreateAPIView):
-    serializer_class = CompanyByTypeSerializer
-    queryset = CompanyByType.objects.all()
+    serializer_class = CompanySerializer
+    #queryset = CompanyByType.objects.all()
 
-
-
-
-class CompanyViewSet(ModelViewSet):
-    queryset = CompanyByType.objects.all()
-    serializer_class = CompanyByTypeSerializer
-
-    def list(self, request):
+    def get_queryset(self, *args, **kwargs):
         queryset = CompanyByType.objects.all()
-        serializer = CompanyByTypeSerializer(queryset, many=True)
-        return JsonResponse(serializer.data, safe=False)
+        query = self.request.GET.get('q')
+        if query:
+            queryset_list = queryset_list.filter(
+                Q(company_name__icontains=query)|
+                Q(company_email__icontains=query)|
+                Q(company_twitter__icontains=query)|
+                Q(company_facebook__icontains=query)|
+                Q(company_instagram__icontains=query)|
+                Q(street_address__icontains=query)|
+                Q(city__icontains=query)|
+                Q(state__icontains=query)|
+                Q(zip_code__icontains=query)|
+                Q(comp_longitude__icontains=query)|
+                Q(comp_latitude__icontains=query)
+                ).distinct
+        return queryset_list
+class FilteredCompanyTypeList(generics.ListAPIView):
+    serializer_class = CompanyTypeSerializer
+    queryset = CompanyByType.objects.all()
+    def get_queryset(self, *args, **kwargs):
+        query = self.request.GET.get('Q')
+        queryset = CompanyByType.objects.all()
+        queryset_list = CompanyByType.objects.all()
+        serializer = CompanyByTypeSerializer(queryset_list, many=True)
+        if query:
+            queryset_list = queryset.filter(
+            Q(company_name__icontains=query)|
+            Q(company_type__icontains=query)|
+            Q(company_facebook__icontains=query)|
+            Q(company_instagram__icontains=query)|
+            Q(street_address__icontains=query)|
+            Q(city__icontains=query)|
+            Q(state__icontains=query)|
+            Q(zip_code__icontains=query)|
+            Q(comp_longitude__icontains=query)|
+            Q(comp_latitude__icontains=query)).distinct
+            return JsonResponse(queryset_list, safe=False)
+
+
 
 
 @csrf_exempt

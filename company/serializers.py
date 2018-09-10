@@ -1,19 +1,29 @@
 from rest_framework import serializers
 from company.models import CompanyByType, COMPANY_TYPE_CHOICES
 from rest_framework.serializers import ModelSerializer
+from rest_framework import generics
+from django_filters.rest_framework import DjangoFilterBackend
 
 
-
-class CompanySerializer(serializers.ModelSerializer):
+class CompanySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = CompanyByType
         fields = (
-        'id', 'company_name', 'company_type',
+        'id', 'url', 'company_name', 'company_type',
         'company_twitter', 'company_facebook',
         'company_instagram', 'street_address',
         'city', 'state', 'zip_code',
         'comp_longitude', 'comp_latitude'
         )
+
+
+class CompanyTypeSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = CompanyByType
+        fields = (
+        'id', 'url', 'company_name', 'company_type',
+        )
+
 
 class CompanyByTypeSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
