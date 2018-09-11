@@ -30,7 +30,7 @@ class ReviewList(viewsets.ModelViewSet):
         query = self.request.GET.get('q')
         if query:
             queryset_list = queryset_list.filter(
-                #Q(company_name__name__startswith=query) |
+                Q(company_name__company_name__startswith=query) |
                 Q(company_type__icontains=query) |
                 Q(comment__icontains=query) |
                 Q(rating__icontains=query) |

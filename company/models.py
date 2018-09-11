@@ -20,7 +20,7 @@ COMPANY_TYPE_CHOICES = (
 
 class CompanyByType(models.Model):
 
-    company_name = models.CharField(max_length=50,  unique=True)
+    company_name = models.CharField(max_length=50, unique=True)
     company_email = models.EmailField(blank=True, max_length=35)
     company_twitter = models.CharField(blank=True, max_length=50)
     company_facebook = models.CharField(blank=True, max_length=50)
@@ -29,8 +29,8 @@ class CompanyByType(models.Model):
     city = models.CharField(blank=True, max_length=25)
     state = models.CharField(blank=True, max_length=25)
     zip_code = models.CharField(blank=True, max_length=5)
-    comp_longitude = models.DecimalField(blank=True, max_digits=9, decimal_places=6)
-    comp_latitude = models.DecimalField(blank=True, max_digits=9, decimal_places=6)
+    comp_longitude = models.DecimalField(blank=True,null=True,  max_digits=9, decimal_places=6)
+    comp_latitude = models.DecimalField(blank=True, null=True, max_digits=9, decimal_places=6)
 
 
     FOOD_and_DRINKS = 'FOOD & DRINKS'

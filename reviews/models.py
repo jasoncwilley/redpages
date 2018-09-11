@@ -4,6 +4,10 @@ from company.models import CompanyByType
 from datetime import datetime
 import company
 from company.models import CompanyByType
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
+
+
 
 class Company(models.Model):
     id = models.IntegerField
@@ -45,13 +49,14 @@ class Review(models.Model):
         (RELIGIOUS_SERVICES, 'Religious Services'),
         (OTHER, 'Other'),
     )
-    company_name = models.ForeignKey('company.CompanyByType', related_name='name', to_field='company_name', on_delete=models.CASCADE)
+    company_name = models.ForeignKey('company.CompanyByType', related_name='name', to_field='company_name', on_delete=models.CASCADE, null=True, blank=True)
     company_type = models.CharField(choices=COMPANY_TYPE_CHOICES, max_length=25)
     first_name = models.CharField(blank=True, max_length=50)
     last_name = models.CharField(blank=True, max_length=25)
     comment = models.TextField(blank=True, max_length=500)
     rating = models.IntegerField(choices=RATING_CHOICES)
     pub_date =  models.DateTimeField(auto_now=True)
+
 
     def __str__(self):
         return self.company_name.company_name
