@@ -1,18 +1,27 @@
 from reviews.models import Review, RATING_CHOICES, COMPANY_TYPE_CHOICES
 from rest_framework.serializers import ModelSerializer
-
+from company.models import CompanyByType
 from rest_framework import serializers
 from datetime import datetime
-
+from django.db.models import Avg
 class ReviewListSerializer(serializers.ModelSerializer):
+    average_rating = serializers.SerializerMethodField()
+
     class Meta:
         model = Review
         fields = (
         'id', 'url', 'company_name', 'company_type',
         'first_name', 'last_name', 'comment',
-        'rating', 'pub_date'
+        'rating','average_rating', 'pub_date', 'average_rating',
         )
+    def get_average_rating(request, comapny_name):
+        company_name = ""
+        q = Review.objects.all()
+        average_rating = q.filter(company_name__company_name__startswith=company_name).aggregate(Avg('rating'))
 
+        if average_rating == None:
+            return 0
+        return average_rating
 
 class CompanyReviewSerializer(serializers.ModelSerializer):
     class Meta:

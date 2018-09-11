@@ -42,7 +42,7 @@ class ReviewList(viewsets.ModelViewSet):
 
 
 def review_list(request):
-    latest_review_list = Review.objects.order_by('-pub_date')[:9]
+    latest_review_list = Review.objects.order_by('-pub_date')[:5]
     context = {'latest_review_list':latest_review_list}
     return render(request, 'reviews/review_list.html', context)
 

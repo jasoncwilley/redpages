@@ -55,6 +55,7 @@ class Review(models.Model):
     last_name = models.CharField(blank=True, max_length=25)
     comment = models.TextField(blank=True, max_length=500)
     rating = models.IntegerField(choices=RATING_CHOICES)
+    average_rating = models.IntegerField(blank=True, null=True)
     pub_date =  models.DateTimeField(auto_now=True)
 
 
