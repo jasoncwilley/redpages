@@ -15,7 +15,135 @@ import django_filters.rest_framework
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 
+#Search for Company that Provide Services
+#http://127.0.0.1:8000/religious?q=
+class ReligiousServicesView(viewsets.ModelViewSet):
+    queryset = CompanyByType.objects.all()
+    serializer_class = CompanySerializer
+    filter_backends = [SearchFilter, OrderingFilter]
+    search_fields = ['company_type',]
+    def get_queryset(self, *args, **kwargs):
+        queryset_list = CompanyByType.objects.all()
+        query = self.request.GET.get('q')
+        if query:
+            queryset_list = queryset_list.filter(
+                Q(company_type__icontains=query)
+                ).distinct()
+        return queryset_list
 
+#Search for Company that Provide Services
+#http://127.0.0.1:8000/services?q=
+class ServicesCompanyView(viewsets.ModelViewSet):
+    queryset = CompanyByType.objects.all()
+    serializer_class = CompanySerializer
+    filter_backends = [SearchFilter, OrderingFilter]
+    search_fields = ['company_type',]
+    def get_queryset(self, *args, **kwargs):
+        queryset_list = CompanyByType.objects.all()
+        query = self.request.GET.get('q')
+        if query:
+            queryset_list = queryset_list.filter(
+                Q(company_type__icontains=query)
+                ).distinct()
+        return queryset_list
+
+#Search for Company that Sale Products
+#http://127.0.0.1:8000/products?q=
+class ProductCompanyView(viewsets.ModelViewSet):
+    queryset = CompanyByType.objects.all()
+    serializer_class = CompanySerializer
+    filter_backends = [SearchFilter, OrderingFilter]
+    search_fields = ['company_type',]
+    def get_queryset(self, *args, **kwargs):
+        queryset_list = CompanyByType.objects.all()
+        query = self.request.GET.get('q')
+        if query:
+            queryset_list = queryset_list.filter(
+                Q(company_type__icontains=query)
+                ).distinct()
+        return queryset_list
+
+
+#Search for an Entertainmnt Company
+#http://127.0.0.1:8000/entertainmnt/?q=
+class EntertainmentCompanyView(viewsets.ModelViewSet):
+    queryset = CompanyByType.objects.all()
+    serializer_class = CompanySerializer
+    filter_backends = [SearchFilter, OrderingFilter]
+    search_fields = ['company_type',]
+    def get_queryset(self, *args, **kwargs):
+        queryset_list = CompanyByType.objects.all()
+        query = self.request.GET.get('q')
+        if query:
+            queryset_list = queryset_list.filter(
+                Q(company_type__icontains=query)
+                ).distinct()
+        return queryset_list
+
+
+#Search for a Company by Company Type
+#http://127.0.0.1:8000/foodandbev/?q=
+class FoodAndBevCompanyView(viewsets.ModelViewSet):
+    queryset = CompanyByType.objects.all()
+    serializer_class = CompanySerializer
+    filter_backends = [SearchFilter, OrderingFilter]
+    search_fields = ['company_type',]
+    def get_queryset(self, *args, **kwargs):
+        queryset_list = CompanyByType.objects.all()
+        query = self.request.GET.get('q')
+        if query:
+            queryset_list = queryset_list.filter(
+                Q(company_type__icontains=query)
+                ).distinct()
+        return queryset_list
+
+
+#Search for a Company by Comapny Name
+#http://127.0.0.1:8000/comapny/?q=
+class CompanyNameView(viewsets.ModelViewSet):
+    queryset = CompanyByType.objects.all()
+    serializer_class = CompanySerializer
+    filter_backends = [SearchFilter, OrderingFilter]
+    search_fields = ['company_name',]
+    def get_queryset(self, *args, **kwargs):
+        queryset_list = CompanyByType.objects.all()
+        query = self.request.GET.get('q')
+        if query:
+            queryset_list = queryset_list.filter(
+                Q(company_name__icontains=query)
+                ).distinct()
+        return queryset_list
+
+#Search for a Company by City
+#http://127.0.0.1:8000/city/?q=
+class CompanyCityView(viewsets.ModelViewSet):
+    queryset = CompanyByType.objects.all()
+    serializer_class = CompanySerializer
+    filter_backends = [SearchFilter, OrderingFilter]
+    search_fields = ['city',]
+    def get_queryset(self, *args, **kwargs):
+        queryset_list = CompanyByType.objects.all()
+        query = self.request.GET.get('q')
+        if query:
+            queryset_list = queryset_list.filter(
+                Q(city__icontains=query)
+                ).distinct()
+        return queryset_list
+#Search for a Company by Zip CompanyZipCodeView
+#http://127.0.0.1:8000/zipcode/?q=
+class CompanyZipCodeView(viewsets.ModelViewSet):
+    queryset = CompanyByType.objects.all()
+    serializer_class = CompanySerializer
+    filter_backends = [SearchFilter, OrderingFilter]
+    search_fields = ['zip_code',]
+    def get_queryset(self, *args, **kwargs):
+        queryset_list = CompanyByType.objects.all()
+        query = self.request.GET.get('q')
+        if query:
+            queryset_list = queryset_list.filter(
+                Q(zip_code__icontains=query)
+                ).distinct()
+        return queryset_list
 class CompanyView(viewsets.ModelViewSet):
     queryset = CompanyByType.objects.all()
     serializer_class = CompanySerializer
