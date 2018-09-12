@@ -19,7 +19,19 @@ import django_filters.rest_framework
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 
-class ReviewList(viewsets.ModelViewSet):
+
+class ReviewAverageView(viewsets.ModelViewSet):
+    queryset= Review.objects.all()
+    serializer_class = ReviewListSerializer
+    def get_average_rating(self,company_name):
+        a = Review.objects.all()
+        b = a.filter(company_name__company_name__='company_name')
+        c = b.aggregate(Avg(b))
+        return(c)
+
+#Search for a list of Reviews by Company Type
+#http://127.0.0.1:8000/reviews/reviewsbytype/?q=
+class CompanyReviews(viewsets.ModelViewSet):
     queryset = Review.objects.all()
     serializer_class = ReviewListSerializer
     filter_backends = [SearchFilter, OrderingFilter]
@@ -30,11 +42,25 @@ class ReviewList(viewsets.ModelViewSet):
         query = self.request.GET.get('q')
         if query:
             queryset_list = queryset_list.filter(
-                Q(company_name__company_name__startswith=query) |
-                Q(company_type__icontains=query) |
-                Q(comment__icontains=query) |
-                Q(rating__icontains=query) |
-                Q(pub_date__icontains=query)
+                Q(company_name__company_name__startswith=query)
+                ).distinct()
+        return queryset_list
+
+
+#Search for a list of Reviews by Company Type
+#http://127.0.0.1:8000/reviews/reviewsbytype/?q=
+class CompanyTypeReviewList(viewsets.ModelViewSet):
+    queryset = Review.objects.all()
+    serializer_class = ReviewListSerializer
+    filter_backends = [SearchFilter, OrderingFilter]
+    search_fields = ['company_name__name', 'company_type',
+    'comment', 'rating', 'pub_date',]
+    def get_queryset(self, *args, **kwargs):
+        queryset_list = Review.objects.all()
+        query = self.request.GET.get('q')
+        if query:
+            queryset_list = queryset_list.filter(
+                Q(company_type__icontains=query)
                 ).distinct()
         return queryset_list
 

@@ -4,11 +4,11 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from rest_framework import routers
 from . import views
-from reviews.views import ReviewList, ReviewViewSet, ReviewListView, RetrieveUpdateDestroyAPIView
+from reviews.views import CompanyTypeReviewList, CompanyReviews, ReviewViewSet, ReviewListView, RetrieveUpdateDestroyAPIView
 
 router = routers.DefaultRouter()
-router.register('reviews', views.ReviewList)
-
+router.register('reviewsbytype', views.CompanyTypeReviewList)
+router.register('companyreviews', views.CompanyReviews)
 urlpatterns = [
     path('', include(router.urls)),
     path('postreviews/', ReviewListView.as_view(), name='post'),

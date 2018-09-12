@@ -58,6 +58,11 @@ class Review(models.Model):
     average_rating = models.IntegerField(blank=True, null=True)
     pub_date =  models.DateTimeField(auto_now=True)
 
+    def get_average_rating(self,company_name):
+        a = Review.objects.all()
+        b = a.filter(company_name__company_name__='company_name')
+        average_rating = b.aggregate(Avg(b))
+        return(average_rating)
 
     def __str__(self):
         return self.company_name.company_name

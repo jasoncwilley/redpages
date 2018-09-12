@@ -10,7 +10,7 @@ from company.views import CompanyListView, FilteredCompanyTypeList, CompanyView
 
 
 router = routers.DefaultRouter()
-router.register('company', views.CompanyView)
+router.register('company', views.CompanyView),
 router.register('zipcode', views.CompanyZipCodeView)
 router.register('city', views.CompanyCityView)
 router.register('companyname', views.CompanyNameView)
@@ -18,7 +18,6 @@ router.register('services', views.ServicesCompanyView)
 router.register('foodandbev', views.FoodAndBevCompanyView)
 router.register('entertainment', views.EntertainmentCompanyView)
 router.register('products', views.ProductCompanyView)
-router.register('religious', views.ReligiousServicesView)
 
 
 

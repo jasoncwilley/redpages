@@ -4,6 +4,7 @@ from company.models import CompanyByType
 from rest_framework import serializers
 from datetime import datetime
 from django.db.models import Avg
+
 class ReviewListSerializer(serializers.ModelSerializer):
     average_rating = serializers.SerializerMethodField()
 
@@ -14,14 +15,11 @@ class ReviewListSerializer(serializers.ModelSerializer):
         'first_name', 'last_name', 'comment',
         'rating','average_rating', 'pub_date', 'average_rating',
         )
-    def get_average_rating(request, comapny_name):
-        company_name = ""
-        q = Review.objects.all()
-        average_rating = q.filter(company_name__company_name__startswith=company_name).aggregate(Avg('rating'))
-
-        if average_rating == None:
-            return 0
-        return average_rating
+    def get_average_rating(self,company_name):
+        a = Review.objects.all()
+        b = a.filter(company_name__company_name__='company_name')
+        average_rating = b.aggregate(Avg(b))
+        return(average_rating)
 
 class CompanyReviewSerializer(serializers.ModelSerializer):
     class Meta:
@@ -40,7 +38,7 @@ class ReviewSerializer(serializers.Serializer):
     rating = serializers.ChoiceField(choices=RATING_CHOICES, default='three_stars')
     comment = serializers.CharField(required=False, allow_blank=True, max_length=500)
     pub_date = serializers.models.DateTimeField(auto_now=True)
-
+    average_rating =serializers.DecimalField(required=False, max_digits=4, decimal_places=3)
     def create(self,validated_data):
         return Review.objects.create(**validated_data)
 
@@ -52,5 +50,6 @@ class ReviewSerializer(serializers.Serializer):
         instance.comment = validated_data.get('comment', instance.comment)
         instance.pub_date = validated_data.get('pub_date', instance.pub_date)
         instance.rating = validated_data.get('rating', instance.rating)
+        instance.average_rating = validated_data.get('average_rating', instance.rating)
         instanct.save()
         return instance
